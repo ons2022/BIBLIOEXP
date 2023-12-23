@@ -18,6 +18,9 @@ public class book {
     @Column(name = "date_publication")
     private Date date_pub;
 
+    @Column(name = "catégorie")
+    private String categorie;
+
     public book(String title, String author, long nbr_exp, Date date_pub) {
         this.title = title;
         this.author = author;
@@ -71,4 +74,11 @@ public class book {
         this.title = title;
     }
 
+    public String getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
+    }
 }

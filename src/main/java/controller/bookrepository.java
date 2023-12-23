@@ -1,4 +1,4 @@
-package repository;
+package controller;
 
 import entity.book;
 import org.springframework.data.jpa.repository.JpaRepository;
