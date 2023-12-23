@@ -1,11 +1,11 @@
-package entity;
+package Entity;
 
 import jakarta.persistence.*;
 
 import java.util.Date;
 @Entity
 @Table(name="books")
-public class book {
+public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long ISBN;
@@ -21,14 +21,14 @@ public class book {
     @Column(name = "catégorie")
     private String categorie;
 
-    public book(String title, String author, long nbr_exp, Date date_pub) {
+    public Book(String title, String author, long nbr_exp, Date date_pub) {
         this.title = title;
         this.author = author;
         this.nbr_exp = nbr_exp;
         this.date_pub = date_pub;
     }
 
-    public book() {
+    public Book() {
 
     }
 
