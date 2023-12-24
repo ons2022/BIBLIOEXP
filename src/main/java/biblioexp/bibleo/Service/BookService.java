@@ -1,7 +1,7 @@
 package biblioexp.bibleo.Service;
 
-import biblioexp.bibleo.Entity.book;
-import biblioexp.bibleo.Controller.bookrepository;
+import biblioexp.bibleo.Entity.Book;
+import biblioexp.bibleo.Controller.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,26 +11,26 @@ import java.util.Optional;
 @Service
 public class BookService {
     @Autowired
-    private final bookrepository bookRepository;
+    private final BookRepository bookRepository;
 
     @Autowired
-    public BookService(bookrepository bookRepository) {
+    public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
-
-    public List<book> getAllBooks() {
-        return bookRepository.findAll();
+/*
+    public static List<Book> getAllBooks() {
+        return BookRepository.findAll();
     }
 
-    public Optional<book> getBookById(Long id) {
+    public Optional<Book> getBookById(Long id) {
         return bookRepository.findById(id);
     }
 
-    public book saveBook(book book) {
-        return bookRepository.save(book);
+    public static Book saveBook(Book book) {
+        return BookRepository.save(book);
     }
 
     public void deleteBook(Long id) {
-        bookRepository.deleteById(id);
-    }
+        BookRepository.deleteById(id);
+    }*/
 }

@@ -1,6 +1,6 @@
 package biblioexp.bibleo.Controller;
 
-import biblioexp.bibleo.Entity.book;
+import biblioexp.bibleo.Entity.Book;
 
 import biblioexp.bibleo.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +11,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/books")
 public class bookController {
+    /*
     @Autowired
     private BookService bookService;
 
     @GetMapping
-    public List<book> getAllBooks() {
-        return bookService.getAllBooks();
+    public List<Book> getAllBooks() {
+        return BookService.getAllBooks();
     }
 
     @PostMapping
-    public book createBook(@RequestBody book book) {
-        return bookService.saveBook(book);
+    public Book createBook(@RequestBody Book book) {
+        return BookService.saveBook(book);
     }
+
+     */
 }

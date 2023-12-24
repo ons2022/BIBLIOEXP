@@ -1,5 +1,6 @@
 package biblioexp.bibleo.Entity;
 
+import biblioexp.bibleo.Controller.CategoryRepository;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -18,10 +19,11 @@ public class Book {
     @Column(name = "date_publication")
     private Date date_pub;
 
-    @Column(name = "category")
-    private String category;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
-    public book(String title, String author, long nbr_exp, Date date_pub, String category) {
+    public Book(String title, String author, long nbr_exp, Date date_pub, Category category) {
         this.title = title;
         this.author = author;
         this.nbr_exp = nbr_exp;
@@ -75,11 +77,11 @@ public class Book {
         this.title = title;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 }
