@@ -1,23 +1,30 @@
 package biblioexp.bibleo.Entity;
 
-import biblioexp.bibleo.Controller.CategoryRepository;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-@Table(name="books")
+@Table(name = "books")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long ISBN;
+
     @Column(name = "title")
     private String title;
+
     @Column(name = "author")
     private String author;
+
     @Column(name = "nbr_copies")
     private long nbr_copies;
+
     @Column(name = "avb_copies")
     private long avb_copies;
+
     @Column(name = "date_publication")
     private Date date_pub;
 
@@ -25,65 +32,46 @@ public class Book {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    public Book(String title, String author, long nbr_exp, Date date_pub, Category category) {
-        this.title = title;
-        this.author = author;
-        this.nbr_copies = nbr_exp;
-        this.date_pub = date_pub;
-        this.category = category;
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Loan> loans = new HashSet<>();
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Reservation> reservations = new HashSet<>();
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Notification> notifications = new HashSet<>();
+
+    // Constructors, getters, and setters...
+
+    public void addLoan(Loan loan) {
+        loans.add(loan);
+        loan.setBook(this);
     }
 
-    public Book() {
-
+    public void removeLoan(Loan loan) {
+        loans.remove(loan);
+        loan.setBook(null);
     }
 
-
-    public Date getDate_pub() {
-        return date_pub;
+    public void addReservation(Reservation reservation) {
+        reservations.add(reservation);
+        reservation.setBook(this);
     }
 
-    public void setDate_pub(Date date_pub) {
-        this.date_pub = date_pub;
+    public void removeReservation(Reservation reservation) {
+        reservations.remove(reservation);
+        reservation.setBook(null);
     }
 
-    public String getAuthor() {
-        return author;
+    public void addNotification(Notification notification) {
+        notifications.add(notification);
+        notification.setBook(this);
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void removeNotification(Notification notification) {
+        notifications.remove(notification);
+        notification.setBook(null);
     }
 
-    public long getNbr_exp() {
-        return nbr_copies;
-    }
-
-    public void setNbr_exp(long nbr_exp) {
-        this.nbr_copies = nbr_exp;
-    }
-
-
-
-    public long getISBN() {
-        return ISBN;
-    }
-
-    public void setISBN(long ISBN) {
-        this.ISBN = ISBN;
-    }
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+    // ... other methods as needed
 }
