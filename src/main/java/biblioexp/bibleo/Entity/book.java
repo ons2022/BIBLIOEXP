@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 @Entity
 @Table(name="books")
-public class book {
+public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long ISBN;
@@ -29,7 +29,7 @@ public class book {
         this.category = category;
     }
 
-    public book() {
+    public Book() {
 
     }
 
