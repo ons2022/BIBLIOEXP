@@ -1,6 +1,6 @@
-package Controller;
+package biblioexp.bibleo.Controller;
 
-import Entity.User;
+import biblioexp.bibleo.Entity.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User, Long> {

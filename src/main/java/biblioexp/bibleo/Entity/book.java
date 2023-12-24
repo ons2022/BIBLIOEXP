@@ -1,4 +1,4 @@
-package Entity;
+package biblioexp.bibleo.Entity;
 
 import jakarta.persistence.*;
 
@@ -18,14 +18,15 @@ public class Book {
     @Column(name = "date_publication")
     private Date date_pub;
 
-    @Column(name = "catégorie")
-    private String categorie;
+    @Column(name = "category")
+    private String category;
 
-    public Book(String title, String author, long nbr_exp, Date date_pub) {
+    public book(String title, String author, long nbr_exp, Date date_pub, String category) {
         this.title = title;
         this.author = author;
         this.nbr_exp = nbr_exp;
         this.date_pub = date_pub;
+        this.category = category;
     }
 
     public Book() {
@@ -74,11 +75,11 @@ public class Book {
         this.title = title;
     }
 
-    public String getCategorie() {
-        return categorie;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategorie(String categorie) {
-        this.categorie = categorie;
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
