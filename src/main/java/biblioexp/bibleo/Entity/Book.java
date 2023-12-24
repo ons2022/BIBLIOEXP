@@ -1,6 +1,5 @@
 package biblioexp.bibleo.Entity;
 
-import biblioexp.bibleo.Controller.CategoryRepository;
 import jakarta.persistence.*;
 
 import java.util.Date;

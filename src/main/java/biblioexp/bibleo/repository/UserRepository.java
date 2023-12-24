@@ -1,6 +1,5 @@
-package com.example.registrationlogindemo.repository;
-
-import com.example.registrationlogindemo.entity.User;
+package biblioexp.bibleo.repository;
+import biblioexp.bibleo.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {

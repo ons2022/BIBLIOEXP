@@ -1,4 +1,4 @@
-package com.example.registrationlogindemo.dto;
+package biblioexp.bibleo.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

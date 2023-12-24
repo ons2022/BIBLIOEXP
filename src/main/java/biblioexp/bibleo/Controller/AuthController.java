@@ -1,8 +1,9 @@
-package com.example.registrationlogindemo.controller;
+package biblioexp.bibleo.Controller;
 
-import com.example.registrationlogindemo.dto.UserDto;
-import com.example.registrationlogindemo.entity.User;
-import com.example.registrationlogindemo.service.UserService;
+import biblioexp.bibleo.dto.UserDto;
+import biblioexp.bibleo.Entity.User;
+import biblioexp.bibleo.Service.UserService;
+
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

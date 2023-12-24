@@ -1,4 +1,4 @@
-package biblioexp.bibleo.Controller;
+package biblioexp.bibleo.repository;
 
 import biblioexp.bibleo.Entity.Book;
 

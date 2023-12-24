@@ -1,7 +1,7 @@
-package com.example.registrationlogindemo.service;
+package biblioexp.bibleo.Service;
 
-import com.example.registrationlogindemo.dto.UserDto;
-import com.example.registrationlogindemo.entity.User;
+import  biblioexp.bibleo.dto.UserDto;
+import  biblioexp.bibleo.Entity.User;
 
 import java.util.List;
 

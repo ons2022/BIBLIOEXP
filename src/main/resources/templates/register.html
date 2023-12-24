@@ -31,45 +31,35 @@
                 <h2 class="text-center">Registration</h2>
             </div>
             <div class="card-body">
-                <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
+                <!--/*@thymesVar id="User" type="biblioexp"*/-->
+                <form method="post" role="form" th:action="@{/register/save}" th:object="${User}">
 
                     <div class="form-group mb-3">
                         <label class="form-label">First Name</label>
-                        <input class="form-control"
-                               id="firstName"
-                               name="firstName"
-                               placeholder="Enter first name"
-                               th:field="*{firstName}"
-                               type="text"
+                        <label for="firstName"></label><input class="form-control"
+                                                              id="firstName"
+                                                              name="firstName"
+                                                              placeholder="Enter first name"
+                                                              th:field="*{User.name}"
+                                                              type="text"
                         />
-                        <p th:errors="*{firstName}" class="text-danger"
-                           th:if="${#fields.hasErrors('firstName')}">
+                        <p th:errors="*{User.name}" class="text-danger"
+                           th:if="${#fields.hasErrors('name')}">
                         </p>
                     </div>
 
-                    <div class="form-group mb-3">
-                        <label class="form-label">Last Name</label>
-                        <input class="form-control"
-                               id="lastName"
-                               name="lastName"
-                               placeholder="Enter last name"
-                               th:field="*{lastName}"
-                               type="text"
-                        />
-                        <p th:errors="*{lastName}" class="text-danger"
-                           th:if="${#fields.hasErrors('lastName')}">
-                        </p>
-                    </div>
+                    
+                 
                     <div class="form-group mb-3">
                         <label class="form-label">Email</label>
                         <input class="form-control"
                                id="email"
                                name="email"
                                placeholder="Enter email address"
-                               th:field="*{email}"
+                               th:field="*{user.email}"
                                type="email"
                         />
-                        <p th:errors="*{email}" class="text-danger"
+                        <p th:errors="*{user.email}" class="text-danger"
                            th:if="${#fields.hasErrors('email')}">
                         </p>
                     </div>
@@ -79,10 +69,10 @@
                                id="password"
                                name="password"
                                placeholder="Enter password"
-                               th:field="*{password}"
+                               th:field="*{user.password}"
                                type="password"
                         />
-                        <p th:errors="*{password}" class="text-danger"
+                        <p th:errors="*{user.password}" class="text-danger"
                            th:if="${#fields.hasErrors('password')}">
                         </p>
                     </div>

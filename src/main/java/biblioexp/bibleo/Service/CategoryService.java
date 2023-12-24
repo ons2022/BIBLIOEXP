@@ -1,11 +1,9 @@
 package biblioexp.bibleo.Service;
 
-import biblioexp.bibleo.Controller.CategoryRepository;
 import biblioexp.bibleo.Entity.Category;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

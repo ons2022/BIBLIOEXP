@@ -1,11 +1,8 @@
-package com.example.registrationlogindemo.service.impl;
-
-import com.example.registrationlogindemo.dto.UserDto;
-import com.example.registrationlogindemo.entity.Role;
-import com.example.registrationlogindemo.entity.User;
-import com.example.registrationlogindemo.repository.RoleRepository;
-import com.example.registrationlogindemo.repository.UserRepository;
-import com.example.registrationlogindemo.service.UserService;
+package biblioexp.bibleo.Service.impl;
+import biblioexp.bibleo.Entity.User;
+import biblioexp.bibleo.Service.UserService;
+import biblioexp.bibleo.dto.UserDto;
+import biblioexp.bibleo.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +14,13 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository,
-                           RoleRepository roleRepository,
+
                            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -37,13 +33,16 @@ public class UserServiceImpl implements UserService {
         //encrypt the password once we integrate spring security
         //user.setPassword(userDto.getPassword());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        Role role = roleRepository.findByName("ROLE_ADMIN");
-        if(role == null){
-            role = checkRoleExist();
-        }
-        user.setRoles(Arrays.asList(role));
+
         userRepository.save(user);
     }
+
+
+    public void saveUser() {
+        saveUser(null);
+    }
+
+
 
     @Override
     public User findByEmail(String email) {
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
-        return users.stream().map((user) -> convertEntityToDto(user))
+        return users.stream().map(this::convertEntityToDto)
                 .collect(Collectors.toList());
     }
 
@@ -66,9 +65,5 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
-    private Role checkRoleExist() {
-        Role role = new Role();
-        role.setName("ROLE_ADMIN");
-        return roleRepository.save(role);
-    }
+
 }

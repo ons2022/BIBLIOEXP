@@ -4,7 +4,7 @@ import biblioexp.bibleo.Entity.Category;
 import biblioexp.bibleo.Service.CategoryService;
 import biblioexp.bibleo.exception.ResourceNotFoundException;
 
-import biblioexp.bibleo.Controller.CategoryRepository;
+import biblioexp.bibleo.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 
