@@ -1,8 +1,7 @@
-package controller;
+package biblioexp.bibleo.Controller;
 
-import entity.book;
+import biblioexp.bibleo.Entity.book;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.yaml.snakeyaml.events.Event;
 
 public interface bookrepository extends JpaRepository<book,Long>{
 
