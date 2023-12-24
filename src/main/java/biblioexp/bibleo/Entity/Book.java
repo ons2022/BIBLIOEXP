@@ -14,8 +14,10 @@ public class Book {
     private String title;
     @Column(name = "author")
     private String author;
-    @Column(name = "nombre exemplaires")
-    private long nbr_exp;
+    @Column(name = "nbr_copies")
+    private long nbr_copies;
+    @Column(name = "avb_copies")
+    private long avb_copies;
     @Column(name = "date_publication")
     private Date date_pub;
 
@@ -26,7 +28,7 @@ public class Book {
     public Book(String title, String author, long nbr_exp, Date date_pub, Category category) {
         this.title = title;
         this.author = author;
-        this.nbr_exp = nbr_exp;
+        this.nbr_copies = nbr_exp;
         this.date_pub = date_pub;
         this.category = category;
     }
@@ -53,11 +55,11 @@ public class Book {
     }
 
     public long getNbr_exp() {
-        return nbr_exp;
+        return nbr_copies;
     }
 
     public void setNbr_exp(long nbr_exp) {
-        this.nbr_exp = nbr_exp;
+        this.nbr_copies = nbr_exp;
     }
 
 
