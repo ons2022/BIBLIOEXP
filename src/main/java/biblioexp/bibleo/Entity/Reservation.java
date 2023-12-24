@@ -26,5 +26,8 @@ public class Reservation {
     public void setUser(User user) {
         this.user = user;
     }
+    public void setBook(Book book) {
+        this.book = book;
+    }
 }
 

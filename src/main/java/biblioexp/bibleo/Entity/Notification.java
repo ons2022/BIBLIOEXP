@@ -28,6 +28,12 @@ public class Notification {
 
     @Column(name = "notification_date")
     private Date notificationDate;
+    public void setBook(Book book) {
+        this.book = book;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     // constructors, getters, and setters...
 }
