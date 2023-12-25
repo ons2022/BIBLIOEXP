@@ -46,8 +46,10 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
+                .csrf((csrf) -> csrf
+                        .ignoringRequestMatchers("/api/**"))
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/", "/login", "/register").permitAll()
+                        .requestMatchers("/api/**", "/login", "/register").permitAll()
                 .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                 .requestMatchers("/account/**").hasAnyAuthority("USER")
                 .anyRequest().authenticated())
@@ -55,7 +57,7 @@ public class WebSecurityConfig {
                                 .loginPage("/login")
                                 .permitAll()
 
-                .failureUrl("/login?error=true")
+
                 .successHandler(sucessHandler)
                 .usernameParameter("email")
                 .passwordParameter("password")
@@ -64,13 +66,15 @@ public class WebSecurityConfig {
                         .permitAll()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/"));
+
+
         return http.build();
 
     }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");
+        return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**", "/api/**");
     }
 
 }
