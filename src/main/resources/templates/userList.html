@@ -12,15 +12,21 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Name</th>
+        <th>First Name</th>
+        <th>Last Name </th>
+        <th> Email</th>
+        <th>Mobile</th>
         <!-- Add other user attributes as needed -->
     </tr>
     </thead>
     <tbody>
     <!-- Iterate over the list of users -->
-    <tr th:each="user : ${users}">
+    <tr th:each="user:${users}">
         <td th:text="${user.id}"></td>
-        <td th:text="${user.username}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.mobile}"></td>
         <!-- Add other user attributes as needed -->
     </tr>
     </tbody>
