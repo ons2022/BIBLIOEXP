@@ -1,8 +1,9 @@
-package biblioexp.bibleo.Service;
+package biblioexp.bibleo.Imp;
 
 import biblioexp.bibleo.Controller.UserRepository;
 import biblioexp.bibleo.Entity.User;
 
+import biblioexp.bibleo.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
