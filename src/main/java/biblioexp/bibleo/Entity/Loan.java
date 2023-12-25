@@ -24,10 +24,42 @@ public class Loan {
     @Column(name = "borrow_date")
     private Date borrowDate;
 
+
     @Column(name = "return_date")
     private Date returnDate;
 
     // Constructors, getters, and setters...
+
+    public Loan(Book book, User user, Date borrowDate, Date returnDate) {
+        this.book = book;
+        this.user = user;
+        this.borrowDate = borrowDate;
+        this.returnDate = returnDate;
+    }
+
+    public Loan() {
+
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Date getBorrowDate() {
+        return borrowDate;
+    }
+
+    public Date getReturnDate() {
+        return returnDate;
+    }
 
     public void setUser(User user) {
         this.user = user;
@@ -35,4 +67,17 @@ public class Loan {
     public void setBook(Book book) {
         this.book = book;
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setBorrowDate(Date borrowDate) {
+        this.borrowDate = borrowDate;
+    }
+
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
+    }
 }
+
