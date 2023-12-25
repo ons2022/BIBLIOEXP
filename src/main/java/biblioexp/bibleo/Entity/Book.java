@@ -1,7 +1,9 @@
 package biblioexp.bibleo.Entity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,8 +30,8 @@ public class Book {
     @Column(name = "date_publication")
     private Date date_pub;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id", nullable = true)
     private Category category;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -41,37 +43,117 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Notification> notifications = new HashSet<>();
 
-    // Constructors, getters, and setters...
-
-    public void addLoan(Loan loan) {
-        loans.add(loan);
-        loan.setBook(this);
+    public Book() {
     }
 
-    public void removeLoan(Loan loan) {
-        loans.remove(loan);
-        loan.setBook(null);
+    public Book(String jsonString) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            // Map the JSON string to a Book object
+            Book book = objectMapper.readValue(jsonString, Book.class);
+
+            // Copy the values from the mapped book to this instance
+            this.setTitle(book.getTitle());
+            this.setAuthor(book.getAuthor());
+            this.setNbr_copies(book.getNbr_copies());
+            this.setAvb_copies(book.getAvb_copies());
+            this.setDate_pub(book.getDate_pub());
+            this.setCategory(book.getCategory());
+
+        } catch (IOException e) {
+            // Handle the exception (e.g., log it or throw a specific exception)
+            e.printStackTrace();
+        }
+    }
+    public Book(String title, String author, long nbr_copies, long avb_copies, Date date_pub, Category category) {
+        this.title = title;
+        this.author = author;
+        this.nbr_copies = nbr_copies;
+        this.avb_copies = avb_copies;
+        this.date_pub = date_pub;
+        this.category = category;
     }
 
-    public void addReservation(Reservation reservation) {
-        reservations.add(reservation);
-        reservation.setBook(this);
+    public long getISBN() {
+        return ISBN;
     }
 
-    public void removeReservation(Reservation reservation) {
-        reservations.remove(reservation);
-        reservation.setBook(null);
+    public void setISBN(long ISBN) {
+        this.ISBN = ISBN;
     }
 
-    public void addNotification(Notification notification) {
-        notifications.add(notification);
-        notification.setBook(this);
+    public String getTitle() {
+        return title;
     }
 
-    public void removeNotification(Notification notification) {
-        notifications.remove(notification);
-        notification.setBook(null);
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public long getNbr_copies() {
+        return nbr_copies;
+    }
+
+    public void setNbr_copies(long nbr_copies) {
+        this.nbr_copies = nbr_copies;
+    }
+
+    public long getAvb_copies() {
+        return avb_copies;
+    }
+
+    public void setAvb_copies(long avb_copies) {
+        this.avb_copies = avb_copies;
+    }
+
+    public Date getDate_pub() {
+        return date_pub;
+    }
+
+    public void setDate_pub(Date date_pub) {
+        this.date_pub = date_pub;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Set<Loan> getLoans() {
+        return loans;
+    }
+
+    public void setLoans(Set<Loan> loans) {
+        this.loans = loans;
+    }
+
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Set<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     // ... other methods as needed
+
 }
