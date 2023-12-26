@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book List</title>
+</head>
+<body>
+
+<h2>Book List</h2>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ISBN</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Number of Copies</th>
+        <th>Available Copies</th>
+        <th>Date Publication</th>
+        <th>Category</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over the list of books and display information for each book -->
+    <tr th:each="book : ${bookList}">
+        <td th:text="${book.ISBN}"></td>
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.nbr_copies}"></td>
+        <td th:text="${book.avb_copies}"></td>
+        <td th:text="${#dates.format(book.date_pub, 'yyyy-MM-dd')}"></td>
+        <td th:text="${book.category.name}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
