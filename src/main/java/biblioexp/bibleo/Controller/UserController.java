@@ -3,6 +3,9 @@ package biblioexp.bibleo.Controller;
 import biblioexp.bibleo.Entity.User;
 import biblioexp.bibleo.Service.UserService;
 
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -48,7 +51,7 @@ public class UserController {
 
     // Update User REST API
     // http://localhost:8080/api/users/1
-    @PutMapping("{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
         User updatedUser = userService.updateUser(user, id);
         if (updatedUser != null) {
@@ -68,10 +71,17 @@ public class UserController {
     }
 
     @GetMapping("/userList")
-    public ModelAndView showUserList() {
+    public ModelAndView showUserList(HttpServletResponse response) {
         List<User> userList = userService.getAllUsers();
+
+        // Set Cache-Control header to no-cache, no-store
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "0");
+
         ModelAndView modelAndView = new ModelAndView("userList");
         modelAndView.addObject("userList", userList);
+
         return modelAndView;
     }
 

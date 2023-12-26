@@ -8,7 +8,11 @@
 <body>
 <h2>Update User</h2>
 
-<form method="put" th:action="@{'/api/users/' + ${userId}}" th:object="${user}" enctype="multipart/form-data">
+<!-- Use Thymeleaf's th:object and th:method to handle PUT request -->
+<form id="updateUserForm" th:object="${user}">
+    <!-- Include CSRF token -->
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
     <!-- Include input fields for user details -->
     <input type="hidden" th:field="*{id}">
 
@@ -36,7 +40,44 @@
     <label for="enabled">Enabled:</label>
     <input type="checkbox" id="enabled" th:field="*{enabled}">
 
-    <button type="submit">Update User</button>
+    <button type="button" onclick="updateUser()">Update User</button>
 </form>
+
+<script>
+    function updateUser() {
+
+        var formData = {
+            id: document.getElementById('id').value,
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value,
+            mobile: document.getElementById('mobile').value,
+            role: document.getElementById('role').value,
+            enabled: document.getElementById('enabled').checked
+        };
+
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('PUT', '/api/users/update/' + formData.id, true);
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.send(JSON.stringify(formData));
+
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log('User updated successfully:', xhr.responseText);
+
+            } else {
+                console.error('Failed to update user:', xhr.status, xhr.statusText);
+            }
+        };
+        window.location.href = '/api/users/userList?refresh=' + Math.random();
+
+
+    }
+</script>
+
+
 </body>
 </html>
