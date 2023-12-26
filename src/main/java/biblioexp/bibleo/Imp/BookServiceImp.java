@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class BookServiceImp implements BookService{
     private BookRepository BookRepository;
@@ -56,5 +58,10 @@ public class BookServiceImp implements BookService{
                 new
                         ResourceNotFoundException("Book", "Id", id));
         BookRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Book> findById(Long bookId) {
+        return Optional.empty();
     }
 }
