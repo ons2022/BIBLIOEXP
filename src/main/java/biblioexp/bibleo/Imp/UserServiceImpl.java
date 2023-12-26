@@ -61,4 +61,40 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                         String.format("USER_NOT_FOUND", email)
                 ));
     }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
+    @Override
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
+    @Override
+    public User updateUser(User user, Long userId) {
+        Optional<User> existingUser = userRepository.findById(userId);
+        if (existingUser.isPresent()) {
+            User updatedUser = existingUser.get();
+            updatedUser.setFirstName(user.getFirstName());
+            updatedUser.setLastName(user.getLastName());
+            updatedUser.setEmail(user.getEmail());
+            updatedUser.setMobile(user.getMobile());
+            // Add other fields that you want to update
+
+            return userRepository.save(updatedUser);
+        } else {
+            return null; // User not found
+        }
+    }
+    @Override
+    public Optional<User> findById(Long userId) {
+        return userRepository.findById(userId);
+    }
+
 }

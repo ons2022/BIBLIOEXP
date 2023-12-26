@@ -1,80 +1,75 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1">
-    <title>BIBLIOEXP</title>
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-md bg-dark navbar-dark">
-    <!-- Brand -->
-    <a class="navbar-brand" href="#">BIBLEOEXP</a>
 
-    <!-- Toggler/collapsibe Button -->
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <a class="navbar-brand" href="#">BIBLEOEXP</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
-
-    <!-- Navbar links -->
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{Loan}">Loan Management</a>
+                <a class="nav-link" th:href="@{/api/books}">Book Management</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{Reservation}">Reservation Management</a>
+                <a class="nav-link" th:href="@{/api/reservations}">Reservation Management</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/userList}">User Management</a>
+                <a class="nav-link" th:href="@{/api/users}">User Management</a>
             </li>
         </ul>
     </div>
 </nav>
 
-<div class ="container">
-    <div class = "row">
-        <h1>User List </h1>
-    </div>
+<div class="container mt-3">
+    <h1>User List</h1>
 
-    <div class = "row">
-        <div class = "col-lg-3">
-            <a th:href = "@{}" class = "btn btn-primary btn-sm mb-3"> Add User</a>
-        </div>
-    </div>
-    <table class = "table table-striped table-bordered">
-        <thead class = "table-dark">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
         <tr>
-            <th>User id </th>
-            <th> User First Name</th>
-            <th> User Last Name</th>
-            <th> User Email </th>
-            <th>User mobile</th>
-            <th> Actions </th>
+            <th>User ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Actions</th>
         </tr>
         </thead>
 
         <tbody>
-        <tr th:each = "user: ${userList}">
+        <tr th:each="user: ${userList}">
             <td th:text="${user.id}"></td>
             <td th:text="${user.firstName}"></td>
             <td th:text="${user.lastName}"></td>
             <td th:text="${user.email}"></td>
             <td th:text="${user.mobile}"></td>
-             <td > <a th:href = "@{/{id}(id=${User.id})}"
-            class = "btn btn-primary">Update</a>
+            <td>
+                <a th:href="@{'/api/users/' + ${user.id} + '/edit'}" class="btn btn-primary">Update</a>
 
-                <a th:href = "@{User/{id}(id=${user.id})}"
-                   class = "btn btn-danger">Delete</a>
-
+                <a th:href="@{'/api/users/' + user.id}" class="btn btn-danger btn-sm">Delete</a>
             </td>
         </tr>
         </tbody>
-
     </table>
-
 </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
 </body>
 </html>

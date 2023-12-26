@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User</title>
+</head>
+<body>
+<h2>Update User</h2>
+
+<form method="put" th:action="@{'/api/users/' + ${userId}}" th:object="${user}" enctype="multipart/form-data">
+    <!-- Include input fields for user details -->
+    <input type="hidden" th:field="*{id}">
+
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" th:field="*{firstName}" required>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" th:field="*{lastName}" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" th:field="*{email}" required>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" th:field="*{password}" required>
+
+    <label for="mobile">Mobile:</label>
+    <input type="text" id="mobile" th:field="*{mobile}">
+
+    <label for="role">Role:</label>
+    <select id="role" th:field="*{role}" required>
+        <option value="USER" th:selected="${user.role == 'USER'}">User</option>
+        <option value="ADMIN" th:selected="${user.role == 'ADMIN'}">Admin</option>
+    </select>
+
+    <label for="enabled">Enabled:</label>
+    <input type="checkbox" id="enabled" th:field="*{enabled}">
+
+    <button type="submit">Update User</button>
+</form>
+</body>
+</html>

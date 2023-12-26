@@ -138,6 +138,9 @@ public class User implements UserDetails  {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new HashSet<>();
+    public Long getId() {
+        return id;
+    }
 
 
     public void addLoan(Loan loan) {
@@ -159,4 +162,6 @@ public class User implements UserDetails  {
         reservations.remove(reservation);
         reservation.setUser(null);
     }
+
+
 }
