@@ -152,7 +152,9 @@ public class User implements UserDetails  {
         loans.remove(loan);
         loan.setUser(null);
     }
-
+    public void setId(Long id) {
+        this.id = id;
+    }
     public void addReservation(Reservation reservation) {
         reservations.add(reservation);
         reservation.setUser(this);

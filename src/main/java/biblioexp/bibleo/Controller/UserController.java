@@ -4,16 +4,15 @@ import biblioexp.bibleo.Entity.User;
 import biblioexp.bibleo.Service.UserService;
 
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.CacheControl;
-import org.springframework.http.HttpHeaders;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -51,30 +50,44 @@ public class UserController {
 
     // Update User REST API
     // http://localhost:8080/api/users/1
-    @PutMapping("/update/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
-        User updatedUser = userService.updateUser(user, id);
-        if (updatedUser != null) {
-            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @GetMapping("/edit/{id}")
+    public ModelAndView showUpdateForm(@PathVariable("id") Long id) {
+        User user = userService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+
+        ModelAndView modelAndView = new ModelAndView("update-user");
+        modelAndView.addObject("user", user);
+        return modelAndView;
     }
 
+
+
+
+    @PostMapping("/update/{id}")
+    public ModelAndView updateUser(@PathVariable("id") long id, @Valid User user,
+                                   BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            user.setId(id);
+            return new ModelAndView("redirect:/api/users/update/{id}");
+        }
+
+        userService.updateUser(user, id);
+        userService.updateUser(user, id);
+        return new ModelAndView("redirect:/api/users/userList");
+    }
     // Delete User REST API
     // http://localhost:8080/api/users/1
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") long id) {
-        // delete User from DB
+    @GetMapping("/delete/{id}")
+    public String deleteUser(@PathVariable("id") long id, Model model) {
         userService.deleteUser(id);
-        return new ResponseEntity<>("User deleted successfully!", HttpStatus.OK);
+        return "redirect:/userList";
     }
 
     @GetMapping("/userList")
     public ModelAndView showUserList(HttpServletResponse response) {
         List<User> userList = userService.getAllUsers();
 
-        // Set Cache-Control header to no-cache, no-store
+
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Expires", "0");
@@ -89,15 +102,6 @@ public class UserController {
     public String homePage(){
         return "user/dashboard";
     }
-    @GetMapping("/{userId}/edit")
-    public ModelAndView showUpdateForm(@PathVariable Long userId) {
-        // Retrieve the user from the database based on userId
-        Optional<User> user = userService.findById(userId);
 
-        ModelAndView modelAndView = new ModelAndView("update-user");
-        modelAndView.addObject("user", user.orElse(null)); // Use orElse(null) to handle the case when the user is not found
-
-        return modelAndView;
-    }
 
 }

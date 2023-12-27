@@ -23,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @RequestMapping("/api/Books")
 public class BookController {
-    private final BookService BookService;  // Changed the variable name to follow camelCase
+    private final BookService BookService;
 
     public BookController(BookService bookService) {
         this.BookService = bookService;
@@ -77,14 +77,14 @@ public class BookController {
     @GetMapping("/BookList")
     public ModelAndView showBookList() {
         List<Book> BookList = BookService.getAllBooks();
-        ModelAndView modelAndView = new ModelAndView("BookList");
+        ModelAndView modelAndView = new ModelAndView("booklist");
         modelAndView.addObject("BookList", BookList);
         return modelAndView;
 
     }
     @GetMapping("/{BookId}/edit")
     public ModelAndView showUpdateForm(@PathVariable Long BookId) {
-        // Retrieve the user from the database based on userId
+
 
 
         ModelAndView modelAndView = new ModelAndView("update-Book");

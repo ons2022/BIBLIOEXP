@@ -40,24 +40,26 @@
             <th>author</th>
             <th>nbr_copies</th>
             <th>avb_copies</th>
+            <th>Date of publication</th>
+            <th>Category</th>
             <th>Actions</th>
 
         </tr>
         </thead>
 
         <tbody>
-        <tr th:each="user: ${BookList}">
-            <td th:text="${Book.id}"></td>
+        <tr th:each="Book: ${BookList}">
+            <td th:text="${Book.ISBN}"></td>
             <td th:text="${Book.title}"></td>
             <td th:text="${Book.author}"></td>
             <td th:text="${Book.nbr_copies}"></td>
             <td th:text="${Book.avb_copies}"></td>
             <td th:text="${Book.date_pub}"></td>
-            <td th:text="${Book.category}"></td>
+            <td th:text="${Book.category.categoryName}"></td>
             <td>
-                <a th:href="@{'/api/Books/' + ${Book.id} + '/edit'}" class="btn btn-primary">Update</a>
+                <a th:href="@{'/api/Books/' + ${Book.ISBN} + '/edit'}" class="btn btn-primary">Update</a>
 
-                <a th:href="@{'/api/Books/' + Book.#}" class="btn btn-danger btn-sm">Delete</a>
+                <a th:href="@{'/api/Books/' + ${Book.ISBN}}" class="btn btn-danger btn-sm">Delete</a>
             </td>
         </tr>
         </tbody>

@@ -8,8 +8,18 @@
 <body>
 <h2>Update User</h2>
 
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User</title>
+</head>
+<body>
+<h2>Update User</h2>
+
 <!-- Use Thymeleaf's th:object and th:method to handle PUT request -->
-<form id="updateUserForm" th:object="${user}">
+<form id="updateUserForm" th:object="${user}" method="post" th:action="@{/api/users/update/{id}(id=${user.id})}">
     <!-- Include CSRF token -->
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
@@ -40,9 +50,14 @@
     <label for="enabled">Enabled:</label>
     <input type="checkbox" id="enabled" th:field="*{enabled}">
 
-    <button type="button" onclick="updateUser()">Update User</button>
+    <!-- Use a submit button instead of a regular button -->
+    <button type="submit">Update User</button>
 </form>
+</body>
+</html>
 
+
+<!--
 <script>
     function updateUser() {
 
@@ -72,12 +87,11 @@
                 console.error('Failed to update user:', xhr.status, xhr.statusText);
             }
         };
-        window.location.href = '/api/users/userList?refresh=' + Math.random();
+
 
 
     }
 </script>
+-->
 
 
-</body>
-</html>
