@@ -13,4 +13,9 @@ public interface UserService {
     User updateUser(User user, Long userId); // Add this method
     List<Object> isUserPresent(User user);
     Optional<User> findById(Long userId);
+
+    User getUserWithLoans(Long userId);
+
+    User getUserWithReservations(Long userId);
+
 }

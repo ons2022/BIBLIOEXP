@@ -1,8 +1,12 @@
 package biblioexp.bibleo.Controller;
 
+import biblioexp.bibleo.Entity.Loan;
+import biblioexp.bibleo.Entity.Reservation;
 import biblioexp.bibleo.Entity.User;
 import biblioexp.bibleo.Service.UserService;
 
+import biblioexp.bibleo.config.CustomLoginSucessHandler;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -14,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")
@@ -103,6 +108,36 @@ public class UserController {
     public String homePage(){
         return "user/dashboard";
     }
+
+    @GetMapping("/loans")
+    public ModelAndView getUserLoans(HttpServletRequest request) {
+        Long userIdFromCookie = CustomLoginSucessHandler.getUserIDFromCookie(request);
+        User user = userService.getUserWithLoans(userIdFromCookie);
+        if (user != null) {
+            ModelAndView modelAndView = new ModelAndView("userLoanList");
+            modelAndView.addObject("loanList", user.getLoans());
+            return modelAndView;
+        } else {
+            return new ModelAndView("error404");
+        }
+    }
+
+
+
+
+    @GetMapping("/reservations")
+    public ModelAndView getUserReservations(HttpServletRequest request) {
+        Long userIdFromCookie = CustomLoginSucessHandler.getUserIDFromCookie(request);
+        User user = userService.getUserWithReservations(userIdFromCookie);
+        if (user != null) {
+            ModelAndView modelAndView = new ModelAndView("userReservationList");
+            modelAndView.addObject("reservationList", user.getReservations());
+            return modelAndView;
+        } else {
+            return new ModelAndView("error404");
+        }
+    }
+
 
 
 }

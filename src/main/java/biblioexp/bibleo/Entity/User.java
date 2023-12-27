@@ -1,5 +1,7 @@
 package biblioexp.bibleo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
@@ -10,16 +12,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-
 @Entity
 @Table(name = "users")
-public class User implements UserDetails  {
+public class User implements UserDetails {
+
     @SequenceGenerator(
             name = "users_sequence",
             sequenceName = "users_sequence",
@@ -46,12 +49,12 @@ public class User implements UserDetails  {
     private String email;
 
     @NotNull(message = "Password cannot be empty")
-    @Length(min = 7, message = "Password should be atleast 7 characters long")
+    @Length(min = 7, message = "Password should be at least 7 characters long")
     @Column(name = "password")
     private String password;
 
     @Column(name = "mobile", unique = true)
-    @Length(min = 10, message = "Password should be atleast 10 number long")
+    @Length(min = 10, message = "Password should be at least 10 number long")
     private String mobile;
 
     @CreationTimestamp
@@ -82,7 +85,7 @@ public class User implements UserDetails  {
         return password;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -111,37 +114,73 @@ public class User implements UserDetails  {
         return enabled;
     }
 
-    public Role getRole() { return role; }
+    public Role getRole() {
+        return role;
+    }
 
     public void setRole(Role role) {
         this.role = role;
     }
 
-    public String getEmail() { return email; }
+    public String getEmail() {
+        return email;
+    }
 
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public String getFirstName() { return firstName; }
+    public String getFirstName() {
+        return firstName;
+    }
 
-    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-    public String getMobile() { return mobile; }
+    public String getMobile() {
+        return mobile;
+    }
 
-    public void setMobile(String mobile) { this.mobile = mobile; }
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-    public String getLastName() { return lastName; }
+    public String getLastName() {
+        return lastName;
+    }
 
-    public void setLastName(String lastName) { this.lastName = lastName; }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Loan> loans = new HashSet<>();
 
+
+
+    public Set<Loan> getLoans() {
+        return loans;
+    }
+
+    // New method to get reservations
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Reservation> reservations = new HashSet<>();
+
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
     public Long getId() {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public void addLoan(Loan loan) {
         loans.add(loan);
@@ -152,9 +191,7 @@ public class User implements UserDetails  {
         loans.remove(loan);
         loan.setUser(null);
     }
-    public void setId(Long id) {
-        this.id = id;
-    }
+
     public void addReservation(Reservation reservation) {
         reservations.add(reservation);
         reservation.setUser(this);
@@ -164,6 +201,4 @@ public class User implements UserDetails  {
         reservations.remove(reservation);
         reservation.setUser(null);
     }
-
-
 }
