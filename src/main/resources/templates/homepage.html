@@ -15,9 +15,9 @@
 <div class="container text-center my-5">
   <h1>WELCOME TO  MyBooks your favorite online library</h1>
 
-  <button type="button" class="btn btn-outline-primary"  href="/login" th:text="'Login'">LOGIN</button>
-  <button type="button" class="btn btn-outline-secondary">REGISTER</button>
-  <button type="button" class="btn btn-outline-success">BOOKS</button>
+  <a type="button" class="btn btn-outline-primary"  th:href="@{'/login'}" th:text="'Login'">LOGIN</a>
+  <a type="button" class="btn btn-outline-secondary"  th:href="@{'/register'}">REGISTER</a>
+  <a type="button" class="btn btn-outline-success" th:href="@{'/api/Books/BookList'}">BOOKS</a>
   <button type="button" class="btn btn-outline-danger">#</button>
   <button type="button" class="btn btn-outline-warning">#</button>
   <button type="button" class="btn btn-outline-info">Info</button>
