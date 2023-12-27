@@ -43,7 +43,8 @@
             <th>Date of publication</th>
             <th>Category</th>
             <th>Actions</th>
-            <th>Actions</th>
+            <th>Loan</th>
+            <th>Reserve</th>
 
         </tr>
         </thead>
@@ -65,6 +66,12 @@
                 <form th:action="@{'/api/Books/loan/' + ${Book.ISBN}}" method="post">
                     <button type="submit" class="btn btn-primary" th:if="${Book.avb_copies > 0}">Loan</button>
                     <span th:if="${Book.avb_copies <= 0}">Not Available</span>
+                </form>
+            </td>
+            <td>
+                <form th:action="@{'/api/Books/reserve/' + ${Book.ISBN}}" method="post">
+                    <button type="submit" class="btn btn-success" >Reserve</button>
+
                 </form>
             </td>
         </tr>
