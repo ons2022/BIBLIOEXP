@@ -71,16 +71,16 @@ public class UserController {
             return new ModelAndView("redirect:/api/users/update/{id}");
         }
 
-        userService.updateUser(user, id);
+
         userService.updateUser(user, id);
         return new ModelAndView("redirect:/api/users/userList");
     }
     // Delete User REST API
     // http://localhost:8080/api/users/1
     @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") long id, Model model) {
+    public ModelAndView deleteUser(@PathVariable("id") long id, Model model) {
         userService.deleteUser(id);
-        return "redirect:/userList";
+        return new ModelAndView("redirect:/api/users/userList");
     }
 
     @GetMapping("/userList")
