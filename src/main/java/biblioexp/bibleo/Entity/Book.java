@@ -28,7 +28,7 @@ public class Book {
     private long avb_copies;
 
     @Column(name = "date_publication")
-    private Date date_pub;
+    private String date_pub;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", nullable = true)
@@ -65,7 +65,7 @@ public class Book {
             e.printStackTrace();
         }
     }
-    public Book(String title, String author, long nbr_copies, long avb_copies, Date date_pub, Category category) {
+    public Book(String title, String author, long nbr_copies, long avb_copies, String date_pub, Category category) {
         this.title = title;
         this.author = author;
         this.nbr_copies = nbr_copies;
@@ -114,11 +114,11 @@ public class Book {
         this.avb_copies = avb_copies;
     }
 
-    public Date getDate_pub() {
+    public String getDate_pub() {
         return date_pub;
     }
 
-    public void setDate_pub(Date date_pub) {
+    public void setDate_pub(String date_pub) {
         this.date_pub = date_pub;
     }
 
@@ -152,6 +152,10 @@ public class Book {
 
     public void setNotifications(Set<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public void setId(Long ISBN) {
+        this.ISBN = ISBN;
     }
 
     // ... other methods as needed

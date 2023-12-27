@@ -27,41 +27,41 @@ public class BookServiceImp implements BookService{
         return BookRepository.findAll();
     }
     @Override
-    public Book getBookById(long id) {
+    public Book getBookById(long ISBN) {
 // Optional<Book> Book = BookRepository.findById(id);
 // if(Book.isPresent()) {
 // return Book.get();
 // }else {
 // throw new ResourceNotFoundException("Book", "Id", id);
 // }
-        return BookRepository.findById(id).orElseThrow(() ->
+        return BookRepository.findById(ISBN).orElseThrow(() ->
                 new
-                        ResourceNotFoundException("Book", "Id", id));
+                        ResourceNotFoundException("Book", "ISBN", ISBN));
     }
     @Override
-    public Book updateBook(Book Book, long id) {
+    public Book updateBook(Book Book, long ISBN) {
 // we need to check whether Book with given id is exist in
         //DB or not
         Book existingBook =
-                BookRepository.findById(id).orElseThrow(
+                BookRepository.findById(ISBN).orElseThrow(
                         () -> new ResourceNotFoundException("Book",
-                                "Id", id));
+                                "ISBN", ISBN));
         existingBook.setTitle(Book.getTitle());
 
         BookRepository.save(existingBook);
         return existingBook;
     }
     @Override
-    public void deleteBook(long id) {
+    public void deleteBook(long ISBN) {
 // check whether a Book exist in a DB or not
-        BookRepository.findById(id).orElseThrow(() ->
+        BookRepository.findById(ISBN).orElseThrow(() ->
                 new
-                        ResourceNotFoundException("Book", "Id", id));
-        BookRepository.deleteById(id);
+                        ResourceNotFoundException("Book", "ISBN", ISBN));
+        BookRepository.deleteById(ISBN);
     }
 
     @Override
-    public Optional<Book> findById(Long bookId) {
-        return Optional.empty();
+    public Optional<Book> findById(Long ISBN) {
+        return BookRepository.findById(ISBN);
     }
 }

@@ -57,9 +57,8 @@
             <td th:text="${Book.date_pub}"></td>
             <td th:text="${Book.category.categoryName}"></td>
             <td>
-                <a th:href="@{'/api/Books/' + ${Book.ISBN} + '/edit'}" class="btn btn-primary">Update</a>
-
-                <a th:href="@{'/api/Books/' + ${Book.ISBN}}" class="btn btn-danger btn-sm">Delete</a>
+                <a th:href="@{'/api/Books/edit/' + ${Book.ISBN}}" class="btn btn-primary">Update</a>
+                <a th:href="@{'/api/Books/delete/' + ${Book.ISBN}}" class="btn btn-danger ">Delete</a>
             </td>
         </tr>
         </tbody>

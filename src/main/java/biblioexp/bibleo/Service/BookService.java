@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 public interface BookService {
     Book saveBook(Book Book);
     List<Book> getAllBooks();
-    Book getBookById(long id);
-    Book updateBook(Book Book, long id);
-    void deleteBook(long id);
+    Book getBookById(long ISBN);
+    Book updateBook(Book Book, long ISBN);
+    void deleteBook(long ISBN);
 
-    Optional<Book> findById(Long bookId);
+    Optional<Book> findById(Long ISBN);
 }

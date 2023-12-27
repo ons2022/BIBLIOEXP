@@ -22,7 +22,7 @@ public class Category {
     public String getCategoryName() {
         return categoryName;
     }
-
+    public Integer getId() {return id;}
 
 
 }
