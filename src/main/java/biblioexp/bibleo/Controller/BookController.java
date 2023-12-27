@@ -1,10 +1,7 @@
 package biblioexp.bibleo.Controller;
 
-import biblioexp.bibleo.Entity.Book;
-import biblioexp.bibleo.Entity.Category;
-import biblioexp.bibleo.Entity.Loan;
-import biblioexp.bibleo.Entity.User;
-import biblioexp.bibleo.Service.BookService;
+import biblioexp.bibleo.Entity.*;
+import biblioexp.bibleo.Service.*;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -13,9 +10,6 @@ import java.util.List;
 import biblioexp.bibleo.config.CustomLoginSucessHandler;
 
 
-import biblioexp.bibleo.Service.CategoryService;
-import biblioexp.bibleo.Service.LoanService;
-import biblioexp.bibleo.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -40,12 +34,14 @@ public class BookController {
     private final BookService BookService;
     private final UserService UserService;
     private final LoanService LoanService;
+    private final ReservationService ReservationService;
     private final Logger logger = LoggerFactory.getLogger(BookController.class);
 
-    public BookController(BookService bookService, biblioexp.bibleo.Service.UserService userService, biblioexp.bibleo.Service.LoanService loanService) {
+    public BookController(BookService bookService, biblioexp.bibleo.Service.UserService userService, biblioexp.bibleo.Service.LoanService loanService, biblioexp.bibleo.Service.ReservationService reservationService) {
         this.BookService = bookService;
         this.UserService = userService;
         this.LoanService = loanService;
+        this.ReservationService = reservationService;
     }
     @Autowired
     private CategoryService categoryService;
@@ -159,6 +155,23 @@ public class BookController {
         calendar.setTime(new Date());
         calendar.add(Calendar.DATE, 10);
         return calendar.getTime();
+    }
+
+
+    @PostMapping("/reserve/{isbn}")
+    public ResponseEntity<String> reserveBook(@PathVariable("isbn") Long isbn, HttpServletRequest request) {
+        // Get the user ID from the cookie
+        Long userIdFromCookie = CustomLoginSucessHandler.getUserIDFromCookie(request);
+
+        // Retrieve the book and user based on their IDs
+        Book book = BookService.getBookById(isbn);
+        User user = UserService.getUserById(userIdFromCookie);
+
+        // Perform the reservation
+        Reservation reservation = new Reservation(book, user, new Date());
+        ReservationService.saveReservation(reservation);
+
+        return new ResponseEntity<>("Book reserved successfully!", HttpStatus.OK);
     }
 
 
