@@ -1,5 +1,6 @@
 package biblioexp.bibleo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.util.Date;
 
@@ -12,10 +13,12 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
+    @JsonBackReference
     private Book book;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     @Column(name = "reservation_date")
@@ -62,5 +65,6 @@ public class Reservation {
         this.user = user;
         this.reservationDate = reservationDate;
     }
+
 }
 

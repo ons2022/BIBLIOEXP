@@ -97,4 +97,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findById(userId);
     }
 
+    @Override
+    public User getUserWithLoans(Long userId) {
+        Optional<User> optionalUser = userRepository.findByIdWithLoans(userId);
+        return optionalUser.orElse(null);
+    }
+
+    @Override
+    public User getUserWithReservations(Long userId) {
+        Optional<User> optionalUser = userRepository.findByIdWithReservations(userId);
+        return optionalUser.orElse(null);
+    }
+
 }

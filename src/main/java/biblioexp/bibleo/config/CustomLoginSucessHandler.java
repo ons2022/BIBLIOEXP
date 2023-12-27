@@ -53,7 +53,14 @@ public class CustomLoginSucessHandler extends SimpleUrlAuthenticationSuccessHand
         }
         return null;
     }
+    public static void setUserId(Long userId) {
+        userIdThreadLocal.set(userId);
+    }
 
+    public static Long getUserId() {
+        return userIdThreadLocal.get();
+    }
+    private static final ThreadLocal<Long> userIdThreadLocal = new ThreadLocal<>();
     private String getUserIdFromAuthentication(Authentication authentication) {
         Object principal = authentication.getPrincipal();
 
