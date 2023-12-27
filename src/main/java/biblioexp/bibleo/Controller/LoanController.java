@@ -16,7 +16,7 @@ public class LoanController {
         super();
         this.LoanService=loanService;
     }
-    //create Loan
+    /*//create Loan
     @PostMapping()
     public ResponseEntity<Loan>saveLoan(@RequestBody Loan Loan){
         return new ResponseEntity<Loan>(LoanService.saveLoan(Loan), HttpStatus.CREATED);
@@ -39,5 +39,5 @@ public class LoanController {
         LoanService.DeleteLoan(id);
         return new ResponseEntity<String>("Loan deleted successfully!.", HttpStatus.OK);
     }
-
+*/
 }

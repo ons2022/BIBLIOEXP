@@ -43,6 +43,7 @@
             <th>Date of publication</th>
             <th>Category</th>
             <th>Actions</th>
+            <th>Actions</th>
 
         </tr>
         </thead>
@@ -59,6 +60,12 @@
             <td>
                 <a th:href="@{'/api/Books/edit/' + ${Book.ISBN}}" class="btn btn-primary">Update</a>
                 <a th:href="@{'/api/Books/delete/' + ${Book.ISBN}}" class="btn btn-danger ">Delete</a>
+            </td>
+            <td>
+                <form th:action="@{'/api/Books/loan/' + ${Book.ISBN}}" method="post">
+                    <button type="submit" class="btn btn-primary" th:if="${Book.avb_copies > 0}">Loan</button>
+                    <span th:if="${Book.avb_copies <= 0}">Not Available</span>
+                </form>
             </td>
         </tr>
         </tbody>

@@ -2,14 +2,21 @@ package biblioexp.bibleo.Controller;
 
 import biblioexp.bibleo.Entity.Book;
 import biblioexp.bibleo.Entity.Category;
+import biblioexp.bibleo.Entity.Loan;
 import biblioexp.bibleo.Entity.User;
-import biblioexp.bibleo.Imp.BookServiceImp;
 import biblioexp.bibleo.Service.BookService;
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
+import biblioexp.bibleo.config.CustomLoginSucessHandler;
 
 
 import biblioexp.bibleo.Service.CategoryService;
+import biblioexp.bibleo.Service.LoanService;
+import biblioexp.bibleo.Service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +26,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,10 +38,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/api/Books")
 public class BookController {
     private final BookService BookService;
+    private final UserService UserService;
+    private final LoanService LoanService;
     private final Logger logger = LoggerFactory.getLogger(BookController.class);
 
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, biblioexp.bibleo.Service.UserService userService, biblioexp.bibleo.Service.LoanService loanService) {
         this.BookService = bookService;
+        this.UserService = userService;
+        this.LoanService = loanService;
     }
     @Autowired
     private CategoryService categoryService;
@@ -117,6 +126,39 @@ public class BookController {
         modelAndView.addObject("BookList", BookList);
         return modelAndView;
 
+    }
+
+    @PostMapping("/loan/{isbn}")
+    public ResponseEntity<String> loanBook(@PathVariable("isbn") Long isbn, HttpServletRequest request) {
+        // Get the user ID from the cookie
+        Long userIdFromCookie = CustomLoginSucessHandler.getUserIDFromCookie(request);
+
+        // Retrieve the book and user based on their IDs
+        Book book = BookService.getBookById(isbn);
+        User user = UserService.getUserById(userIdFromCookie);
+
+        // Check if the book is available for loan
+        if (book.getAvb_copies() > 0) {
+            // Perform the loan
+            Loan loan = new Loan(book, user, new Date(), calculateReturnDate());
+            LoanService.saveLoan(loan);
+
+            // Update the available copies of the book
+            book.setAvb_copies(book.getAvb_copies() - 1);
+            BookService.saveBook(book);
+
+            return new ResponseEntity<>("Book loaned successfully!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Book not available for loan.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Helper method to calculate the return date (10 days from the borrow date)
+    private Date calculateReturnDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE, 10);
+        return calendar.getTime();
     }
 
 
