@@ -1,8 +1,10 @@
 package biblioexp.bibleo.Controller;
 
 import biblioexp.bibleo.Entity.Loan;
+import biblioexp.bibleo.Entity.Notification;
 import biblioexp.bibleo.Entity.Reservation;
 import biblioexp.bibleo.Entity.User;
+import biblioexp.bibleo.Service.NotificationService;
 import biblioexp.bibleo.Service.UserService;
 
 import biblioexp.bibleo.config.CustomLoginSucessHandler;
@@ -24,9 +26,11 @@ import java.util.Set;
 @RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
+    private final NotificationService notificationService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, NotificationService notificationService) {
         this.userService = userService;
+        this.notificationService = notificationService;
     }
 
     // Create User REST API
@@ -137,6 +141,29 @@ public class UserController {
             return new ModelAndView("error404");
         }
     }
+
+
+    @GetMapping("/notifications")
+    public ModelAndView getUserNotifications(HttpServletRequest request) {
+        Long userIdFromCookie = CustomLoginSucessHandler.getUserIDFromCookie(request);
+        User user = userService.getUserWithNotifications(userIdFromCookie);
+        if (user != null) {
+            Set<Notification> notifications = user.getNotifications();
+
+
+            for (Notification notification : notifications) {
+                notification.setViewed(true);
+                notificationService.sendNotification(notification);
+            }
+
+            ModelAndView modelAndView = new ModelAndView("userNotificationList");
+            modelAndView.addObject("notificationList", notifications);
+            return modelAndView;
+        } else {
+            return new ModelAndView("error404");
+        }
+    }
+
 
 
 

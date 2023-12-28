@@ -138,6 +138,7 @@ public class User implements UserDetails {
         this.firstName = firstName;
     }
 
+
     public String getMobile() {
         return mobile;
     }
@@ -200,5 +201,13 @@ public class User implements UserDetails {
     public void removeReservation(Reservation reservation) {
         reservations.remove(reservation);
         reservation.setUser(null);
+    }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Set<Notification> notifications = new HashSet<>();
+
+    public Set<Notification> getNotifications() {
+        return notifications;
     }
 }

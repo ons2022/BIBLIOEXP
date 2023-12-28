@@ -8,6 +8,7 @@ import biblioexp.bibleo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Date;
 import java.util.List;
 @Service
 
@@ -58,4 +59,18 @@ public class LoanServiceImp implements LoanService {
        LoanRepository.deleteById(id);
 
     }
+
+    @Override
+    public List<Loan> findApproachingReturnLoans() {
+
+        return LoanRepository.findApproachingReturnLoans();
+    }
+
+    @Override
+    public List<Loan> findOverdueLoans() {
+
+        return LoanRepository.findOverdueLoans();
+    }
+
+
 }

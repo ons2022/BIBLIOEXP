@@ -13,7 +13,7 @@ public class NotificationController {
     public NotificationController(NotificationService notificationService) {
         this.notificationService = notificationService;
     }
-
+/*
     // Endpoint to get all notifications
     @GetMapping
     public List<Notification> getAllNotifications() {
@@ -42,5 +42,5 @@ public class NotificationController {
     @DeleteMapping("/{id}")
     public void deleteNotification(@PathVariable long id) {
         notificationService.deleteNotification(id);
-    }
+    }*/
 }

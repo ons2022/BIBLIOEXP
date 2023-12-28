@@ -55,5 +55,9 @@ public class ReservationServiceImp implements ReservationService {
         ReservationRepository.deleteById(id);
     }
 
-
+    @Override
+    public List<Reservation> findReservedBooksAvailable() {
+        // Find reservations where the reserved book is available (loan not taken)
+        return ReservationRepository.findReservedBooksAvailable();
+    }
 }

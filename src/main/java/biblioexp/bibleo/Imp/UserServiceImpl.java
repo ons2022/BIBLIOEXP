@@ -108,5 +108,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Optional<User> optionalUser = userRepository.findByIdWithReservations(userId);
         return optionalUser.orElse(null);
     }
-
+    @Override
+    public User getUserWithNotifications(long userId) {
+        return userRepository.findByIdWithNotifications(userId)
+                .orElse(null);
+    }
 }

@@ -17,5 +17,5 @@ public interface UserService {
     User getUserWithLoans(Long userId);
 
     User getUserWithReservations(Long userId);
-
+    User getUserWithNotifications(long userId);
 }
