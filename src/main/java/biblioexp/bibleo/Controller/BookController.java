@@ -187,14 +187,11 @@ public class BookController {
     public ModelAndView addBook(@ModelAttribute("book") Book book) {
         ModelAndView modelAndView = new ModelAndView();
         try {
-            // Assuming you have a service method to add a book
             Book addedBook = BookService.saveBook(book);
             modelAndView.setViewName("redirect:/books/list");
-            // Log or handle success as needed
         } catch (Exception e) {
             modelAndView.setViewName("add-book");
             modelAndView.addObject("error", "An error occurred while adding the book.");
-            // Log or handle the exception as needed
         }
         return modelAndView;
     }

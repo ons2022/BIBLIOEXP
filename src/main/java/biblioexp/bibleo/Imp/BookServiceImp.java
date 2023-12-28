@@ -39,18 +39,20 @@ public class BookServiceImp implements BookService{
                         ResourceNotFoundException("Book", "ISBN", ISBN));
     }
     @Override
-    public Book updateBook(Book Book, long ISBN) {
-// we need to check whether Book with given id is exist in
-        //DB or not
-        Book existingBook =
-                BookRepository.findById(ISBN).orElseThrow(
-                        () -> new ResourceNotFoundException("Book",
-                                "ISBN", ISBN));
-        existingBook.setTitle(Book.getTitle());
+    public Book updateBook(Book updatedBook, long ISBN) {
+        Book existingBook = BookRepository.findById(ISBN)
+                .orElseThrow(() -> new ResourceNotFoundException("Book", "ISBN", ISBN));
 
-        BookRepository.save(existingBook);
-        return existingBook;
+        existingBook.setTitle(updatedBook.getTitle());
+        existingBook.setAuthor(updatedBook.getAuthor());
+        existingBook.setNbr_copies(updatedBook.getNbr_copies());
+        existingBook.setAvb_copies(updatedBook.getAvb_copies());
+        existingBook.setDate_pub(updatedBook.getDate_pub());
+        existingBook.setCategory(updatedBook.getCategory());
+
+        return BookRepository.save(existingBook);
     }
+
     @Override
     public void deleteBook(long ISBN) {
 // check whether a Book exist in a DB or not
