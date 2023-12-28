@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             updatedUser.setLastName(user.getLastName());
             updatedUser.setEmail(user.getEmail());
             updatedUser.setMobile(user.getMobile());
-            // Add other fields that you want to update
+
 
             return userRepository.save(updatedUser);
         } else {

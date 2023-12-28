@@ -50,11 +50,11 @@ public class Book {
 
     public Book() {
     }
-
+/*
     public Book(String jsonString) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            // Map the JSON string to a Book object
+
             Book book = objectMapper.readValue(jsonString, Book.class);
 
             // Copy the values from the mapped book to this instance
@@ -77,7 +77,7 @@ public class Book {
         this.avb_copies = avb_copies;
         this.date_pub = date_pub;
         this.category = category;
-    }
+    }*/
 
     public long getISBN() {
         return ISBN;
