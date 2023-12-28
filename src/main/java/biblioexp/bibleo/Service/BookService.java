@@ -16,4 +16,5 @@ public interface BookService {
     void deleteBook(long ISBN);
 
     Optional<Book> findById(Long ISBN);
+    List<Book> searchAndSortBooks(String query, String sortCriteria);
 }
