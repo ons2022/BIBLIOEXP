@@ -10,7 +10,7 @@ public interface UserService {
     List<User> getAllUsers();
     void deleteUser(Long userId);
     User getUserById(Long userId);
-    User updateUser(User user, Long userId); // Add this method
+    User updateUser(User user, Long userId);
     List<Object> isUserPresent(User user);
     Optional<User> findById(Long userId);
 

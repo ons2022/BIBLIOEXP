@@ -155,14 +155,21 @@ public class BookController {
         return new ResponseEntity<>("Book reserved successfully!", HttpStatus.OK);
     }
     @GetMapping("/search")
-    public ModelAndView searchAndSortBooks(@RequestParam(name = "query", required = false) String query,
-                                           @RequestParam(name = "sort", required = false) String sortCriteria) {
+    public ModelAndView searchAndSortBooks(
+            @RequestParam(name = "query", required = false) String query,
+            @RequestParam(name = "criteria", required = false, defaultValue = "title") String searchCriteria,
+            @RequestParam(name = "sort", required = false) String sortCriteria) {
+
         List<Book> result;
 
         if (query != null && !query.isEmpty()) {
-            result = BookService.searchAndSortBooks(query, sortCriteria);
+            result = BookService.searchBooks(query, searchCriteria);
         } else {
             result = BookService.getAllBooks();
+        }
+
+        if (sortCriteria != null && !sortCriteria.isEmpty()) {
+            result = BookService.sortBooks(result, sortCriteria);
         }
 
         List<Category> categories = categoryService.getAllCategories();
@@ -172,6 +179,8 @@ public class BookController {
         modelAndView.addObject("categories", categories);
         return modelAndView;
     }
+
+
 
 
     @GetMapping("/add")

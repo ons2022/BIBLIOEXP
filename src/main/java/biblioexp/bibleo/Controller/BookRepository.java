@@ -13,5 +13,7 @@ public interface BookRepository extends JpaRepository<Book,Long>{
     List<Book> findByTitleContainingIgnoreCaseOrderByTitle(String title);
     List<Book> findByAuthorContainingIgnoreCaseOrderByAuthor(String author);
 
+    List<Book> findByCategory_CategoryNameContainingIgnoreCaseOrderByTitle(String categoryName);
+
 
 }

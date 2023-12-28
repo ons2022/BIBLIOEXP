@@ -36,10 +36,16 @@
 
 <div class="container mt-3">
 
-    <!-- Search Form -->
     <form class="form-inline search-form" th:action="@{/api/Books/search}" method="get">
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search by title, category, or author" name="query">
+            <input type="text" class="form-control" placeholder="Search query" name="query">
+        </div>
+        <div class="form-group">
+            <select class="form-control" name="criteria">
+                <option value="title">Title</option>
+                <option value="author">Author</option>
+                <option value="category">Category</option>
+            </select>
         </div>
         <div class="form-group">
             <select class="form-control" name="sort">
@@ -62,7 +68,6 @@
             <th>avb_copies</th>
             <th>Date of publication</th>
             <th>Category</th>
-            <th>Actions</th>
             <th>Loan</th>
             <th>Reserve</th>
         </tr>
@@ -77,10 +82,6 @@
             <td th:text="${book.avb_copies}"></td>
             <td th:text="${book.date_pub}"></td>
             <td th:text="${book.category.categoryName}"></td>
-            <td>
-                <a th:href="@{'/api/Books/edit/' + ${book.ISBN}}" class="btn btn-primary">Update</a>
-                <a th:href="@{'/api/Books/delete/' + ${book.ISBN}}" class="btn btn-danger">Delete</a>
-            </td>
             <td>
                 <form th:action="@{'/api/Books/loan/' + ${book.ISBN}}" method="post">
                     <button type="submit" class="btn btn-primary" th:if="${book.avb_copies > 0}">Loan</button>

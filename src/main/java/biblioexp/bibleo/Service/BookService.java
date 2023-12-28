@@ -16,5 +16,7 @@ public interface BookService {
     void deleteBook(long ISBN);
 
     Optional<Book> findById(Long ISBN);
-    List<Book> searchAndSortBooks(String query, String sortCriteria);
+    List<Book> searchBooks(String query, String searchCriteria);
+    List<Book> sortBooks(List<Book> books, String sortCriteria);
+
 }

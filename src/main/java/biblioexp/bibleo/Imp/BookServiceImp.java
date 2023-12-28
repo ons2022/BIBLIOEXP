@@ -8,6 +8,7 @@ import biblioexp.bibleo.Controller.BookRepository;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,21 +68,44 @@ public class BookServiceImp implements BookService{
         return BookRepository.findById(ISBN);
     }
     @Override
-    public List<Book> searchAndSortBooks(String query, String sortCriteria) {
+    public List<Book> searchBooks(String query, String searchCriteria) {
         List<Book> result;
 
-        switch (sortCriteria) {
+        switch (searchCriteria) {
             case "title":
                 result = BookRepository.findByTitleContainingIgnoreCaseOrderByTitle(query);
                 break;
             case "author":
                 result = BookRepository.findByAuthorContainingIgnoreCaseOrderByAuthor(query);
                 break;
+            case "category":
+                result = BookRepository.findByCategory_CategoryNameContainingIgnoreCaseOrderByTitle(query);
+                break;
             default:
+                // Default to searching by title
                 result = BookRepository.findByTitleContainingIgnoreCaseOrderByTitle(query);
                 break;
         }
 
         return result;
     }
+    // In BookServiceImp
+    @Override
+    public List<Book> sortBooks(List<Book> books, String sortCriteria) {
+        switch (sortCriteria) {
+            case "title":
+                books.sort(Comparator.comparing(Book::getTitle));
+                break;
+            case "author":
+                books.sort(Comparator.comparing(Book::getAuthor));
+                break;
+            // Add more cases for additional sorting criteria if needed
+            default:
+                // Default to sorting by title
+                books.sort(Comparator.comparing(Book::getTitle));
+                break;
+        }
+        return books;
+    }
+
 }
