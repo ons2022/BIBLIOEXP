@@ -16,4 +16,8 @@ public interface LoanService {
     Loan UpdateLoan(Loan Loan, long id);
     void DeleteLoan(long id);
 
+    List<Loan> findApproachingReturnLoans();
+
+    List<Loan> findOverdueLoans();
+
 }
