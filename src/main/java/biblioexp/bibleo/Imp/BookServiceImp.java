@@ -64,4 +64,22 @@ public class BookServiceImp implements BookService{
     public Optional<Book> findById(Long ISBN) {
         return BookRepository.findById(ISBN);
     }
+    @Override
+    public List<Book> searchAndSortBooks(String query, String sortCriteria) {
+        List<Book> result;
+
+        switch (sortCriteria) {
+            case "title":
+                result = BookRepository.findByTitleContainingIgnoreCaseOrderByTitle(query);
+                break;
+            case "author":
+                result = BookRepository.findByAuthorContainingIgnoreCaseOrderByAuthor(query);
+                break;
+            default:
+                result = BookRepository.findByTitleContainingIgnoreCaseOrderByTitle(query);
+                break;
+        }
+
+        return result;
+    }
 }

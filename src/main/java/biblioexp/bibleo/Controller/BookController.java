@@ -20,12 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
@@ -84,6 +79,7 @@ public class BookController {
 
 
 
+
     @PostMapping("/update/{ISBN}")
     public ModelAndView updateBook(@PathVariable("ISBN") long ISBN,
                                    @Valid @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Book book,
@@ -126,20 +122,12 @@ public class BookController {
 
     @PostMapping("/loan/{isbn}")
     public ResponseEntity<String> loanBook(@PathVariable("isbn") Long isbn, HttpServletRequest request) {
-        // Get the user ID from the cookie
         Long userIdFromCookie = CustomLoginSucessHandler.getUserIDFromCookie(request);
-
-        // Retrieve the book and user based on their IDs
         Book book = BookService.getBookById(isbn);
         User user = UserService.getUserById(userIdFromCookie);
-
-        // Check if the book is available for loan
         if (book.getAvb_copies() > 0) {
-            // Perform the loan
             Loan loan = new Loan(book, user, new Date(), calculateReturnDate());
             LoanService.saveLoan(loan);
-
-            // Update the available copies of the book
             book.setAvb_copies(book.getAvb_copies() - 1);
             BookService.saveBook(book);
 
@@ -148,8 +136,6 @@ public class BookController {
             return new ResponseEntity<>("Book not available for loan.", HttpStatus.BAD_REQUEST);
         }
     }
-
-    // Helper method to calculate the return date (10 days from the borrow date)
     private Date calculateReturnDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
@@ -160,19 +146,57 @@ public class BookController {
 
     @PostMapping("/reserve/{isbn}")
     public ResponseEntity<String> reserveBook(@PathVariable("isbn") Long isbn, HttpServletRequest request) {
-        // Get the user ID from the cookie
         Long userIdFromCookie = CustomLoginSucessHandler.getUserIDFromCookie(request);
-
-        // Retrieve the book and user based on their IDs
         Book book = BookService.getBookById(isbn);
         User user = UserService.getUserById(userIdFromCookie);
-
-        // Perform the reservation
         Reservation reservation = new Reservation(book, user, new Date());
         ReservationService.saveReservation(reservation);
 
         return new ResponseEntity<>("Book reserved successfully!", HttpStatus.OK);
     }
+    @GetMapping("/search")
+    public ModelAndView searchAndSortBooks(@RequestParam(name = "query", required = false) String query,
+                                           @RequestParam(name = "sort", required = false) String sortCriteria) {
+        List<Book> result;
 
+        if (query != null && !query.isEmpty()) {
+            result = BookService.searchAndSortBooks(query, sortCriteria);
+        } else {
+            result = BookService.getAllBooks();
+        }
+
+        List<Category> categories = categoryService.getAllCategories();
+
+        ModelAndView modelAndView = new ModelAndView("Catalogue");
+        modelAndView.addObject("BookList", result);
+        modelAndView.addObject("categories", categories);
+        return modelAndView;
+    }
+
+
+    @GetMapping("/add")
+    public ModelAndView showAddBookForm() {
+        List<Category> categories = categoryService.getAllCategories();
+        ModelAndView modelAndView = new ModelAndView("add-book");
+        modelAndView.addObject("categories", categories);
+        modelAndView.addObject("book", new Book());
+        return modelAndView;
+    }
+
+    @PostMapping("/add")
+    public ModelAndView addBook(@ModelAttribute("book") Book book) {
+        ModelAndView modelAndView = new ModelAndView();
+        try {
+            // Assuming you have a service method to add a book
+            Book addedBook = BookService.saveBook(book);
+            modelAndView.setViewName("redirect:/books/list");
+            // Log or handle success as needed
+        } catch (Exception e) {
+            modelAndView.setViewName("add-book");
+            modelAndView.addObject("error", "An error occurred while adding the book.");
+            // Log or handle the exception as needed
+        }
+        return modelAndView;
+    }
 
 }
