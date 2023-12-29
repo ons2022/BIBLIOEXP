@@ -74,22 +74,13 @@ public class BookController {
         return modelAndView;
     }
 
-
-
-
-
-
-
     @PostMapping("/update/{ISBN}")
     public ModelAndView updateBook(@PathVariable("ISBN") long ISBN,
                                    @Valid @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Book book,
                                    BindingResult result, Model model) {
         if (result.hasErrors()) {
             book.setISBN(ISBN);
-            // Log validation errors
             logger.error("Validation errors occurred for ISBN {}: {}", ISBN, result.getAllErrors());
-
-            // Handle validation errors as needed
             return new ModelAndView("redirect:/api/Books/edit/{ISBN}");
         }
 
@@ -121,7 +112,7 @@ public class BookController {
     }
 
     @PostMapping("/loan/{isbn}")
-    public ResponseEntity<String> loanBook(@PathVariable("isbn") Long isbn, HttpServletRequest request) {
+    public ModelAndView loanBook(@PathVariable("isbn") Long isbn, HttpServletRequest request) {
         Long userIdFromCookie = CustomLoginSucessHandler.getUserIDFromCookie(request);
         Book book = BookService.getBookById(isbn);
         User user = UserService.getUserById(userIdFromCookie);
@@ -131,9 +122,13 @@ public class BookController {
             book.setAvb_copies(book.getAvb_copies() - 1);
             BookService.saveBook(book);
 
-            return new ResponseEntity<>("Book loaned successfully!", HttpStatus.OK);
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("redirect:/api/Books/search");
+            return modelAndView;
         } else {
-            return new ResponseEntity<>("Book not available for loan.", HttpStatus.BAD_REQUEST);
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("redirect:/api/Books/search");
+            return modelAndView;
         }
     }
     private Date calculateReturnDate() {
@@ -145,14 +140,15 @@ public class BookController {
 
 
     @PostMapping("/reserve/{isbn}")
-    public ResponseEntity<String> reserveBook(@PathVariable("isbn") Long isbn, HttpServletRequest request) {
+    public ModelAndView reserveBook(@PathVariable("isbn") Long isbn, HttpServletRequest request) {
         Long userIdFromCookie = CustomLoginSucessHandler.getUserIDFromCookie(request);
         Book book = BookService.getBookById(isbn);
         User user = UserService.getUserById(userIdFromCookie);
         Reservation reservation = new Reservation(book, user, new Date());
         ReservationService.saveReservation(reservation);
-
-        return new ResponseEntity<>("Book reserved successfully!", HttpStatus.OK);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/api/Books/search");
+        return modelAndView;
     }
     @GetMapping("/search")
     public ModelAndView searchAndSortBooks(
@@ -197,7 +193,7 @@ public class BookController {
         ModelAndView modelAndView = new ModelAndView();
         try {
             Book addedBook = BookService.saveBook(book);
-            modelAndView.setViewName("redirect:/books/list");
+            modelAndView.setViewName("redirect:/api/Books/list");
         } catch (Exception e) {
             modelAndView.setViewName("add-book");
             modelAndView.addObject("error", "An error occurred while adding the book.");

@@ -48,9 +48,9 @@ public class WebSecurityConfig {
                         .ignoringRequestMatchers("/api/**"))
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/api/**", "/login", "/register").permitAll()
-                .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
-                .requestMatchers("/account/**").hasAnyAuthority("USER")
-                .anyRequest().authenticated())
+                        .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/account/**").hasAnyAuthority("USER")
+                        .anyRequest().authenticated())
                         .formLogin(form -> form
                                 .loginPage("/login")
                                 .permitAll()

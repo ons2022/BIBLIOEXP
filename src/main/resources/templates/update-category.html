@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Category</title>
+    <title>Update Category</title>
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -11,20 +11,22 @@
 <body>
 
 <div class="container mt-3">
-    <h2>Add Category</h2>
+    <h2>Update Category</h2>
 
-    <form id="addCategoryForm" th:object="${category}" method="post" th:action="@{/api/Categories/add}">
+    <form id="updateCategoryForm" th:object="${category}" method="post" th:action="@{/api/Categories/update/{id}(id=${category.id})}">
         <div class="form-group">
             <!-- Include CSRF token -->
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
             <!-- Include input fields for category details -->
+            <input type="hidden" th:field="*{id}">
+
             <label for="categoryName">Category Name:</label>
             <input type="text" class="form-control" id="categoryName" th:field="*{categoryName}" required>
         </div>
 
         <!-- Use a submit button instead of a regular button -->
-        <button type="submit" class="btn btn-primary">Add Category</button>
+        <button type="submit" class="btn btn-primary">Update Category</button>
     </form>
 </div>
 
