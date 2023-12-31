@@ -3,11 +3,13 @@ package biblioexp.bibleo.Imp;
 import biblioexp.bibleo.Controller.LoanRepository;
 import biblioexp.bibleo.Entity.Category;
 import biblioexp.bibleo.Entity.Loan;
+import biblioexp.bibleo.Entity.LoanStatus;
 import biblioexp.bibleo.Service.LoanService;
 import biblioexp.bibleo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 @Service
@@ -70,6 +72,38 @@ public class LoanServiceImp implements LoanService {
     public List<Loan> findOverdueLoans() {
 
         return LoanRepository.findOverdueLoans();
+    }
+
+    @Override
+    public Loan renewLoan(long loanId) {
+        Loan loan = LoanRepository.findById(loanId)
+                .orElseThrow(() -> new ResourceNotFoundException("Loan", "Id", loanId));
+
+        if (loan.getStatus() == LoanStatus.ACTIVE) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(loan.getReturnDate());
+            calendar.add(Calendar.DAY_OF_MONTH, 10);
+            loan.setReturnDate(calendar.getTime());
+
+            LoanRepository.save(loan);
+        }
+
+        return loan;
+    }
+
+    @Override
+    public Loan returnLoan(long loanId) {
+        Loan loan = LoanRepository.findById(loanId)
+                .orElseThrow(() -> new ResourceNotFoundException("Loan", "Id", loanId));
+
+        if (loan.getStatus() == LoanStatus.ACTIVE) {
+            loan.setStatus(LoanStatus.RETURNED);
+            loan.setReturnDate(new Date());
+
+            LoanRepository.save(loan);
+        }
+
+        return loan;
     }
 
 

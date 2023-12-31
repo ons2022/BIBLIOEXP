@@ -32,17 +32,32 @@ public class Loan {
     @Column(name = "return_date")
     private Date returnDate;
 
-    // Constructors, getters, and setters...
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private LoanStatus status;
 
-    public Loan(Book book, User user, Date borrowDate, Date returnDate) {
+
+
+    public Loan(Book book, User user, Date borrowDate, Date returnDate, LoanStatus status) {
         this.book = book;
         this.user = user;
         this.borrowDate = borrowDate;
         this.returnDate = returnDate;
+        this.status = status;
     }
 
     public Loan() {
 
+    }
+
+
+
+    public LoanStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(LoanStatus status) {
+        this.status = status;
     }
 
     public long getId() {

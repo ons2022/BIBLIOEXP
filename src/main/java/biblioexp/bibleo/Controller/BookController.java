@@ -116,9 +116,11 @@ public class BookController {
         Long userIdFromCookie = CustomLoginSucessHandler.getUserIDFromCookie(request);
         Book book = BookService.getBookById(isbn);
         User user = UserService.getUserById(userIdFromCookie);
+
         if (book.getAvb_copies() > 0) {
-            Loan loan = new Loan(book, user, new Date(), calculateReturnDate());
+            Loan loan = new Loan(book, user, new Date(), calculateReturnDate(), LoanStatus.ACTIVE);
             LoanService.saveLoan(loan);
+
             book.setAvb_copies(book.getAvb_copies() - 1);
             BookService.saveBook(book);
 

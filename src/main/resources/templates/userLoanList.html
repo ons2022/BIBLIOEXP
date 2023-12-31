@@ -41,6 +41,8 @@
             <th>Return Date</th>
             <th>Book Title</th>
             <th>User Name</th>
+            <th>Status</th>
+            <th>Actions</th>
 
         </tr>
         </thead>
@@ -52,6 +54,20 @@
             <td th:text="${loan.returnDate}"></td>
             <td th:text="${loan.book.title}"></td>
             <td th:text="${loan.user.firstName + ' ' + loan.user.lastName}"></td>
+            <td th:text="${loan.status}"></td>
+
+
+            <td>
+                <form th:action="@{/api/users/loans/renew}" method="post">
+                    <input type="hidden" name="loanId" th:value="${loan.id}" />
+                    <button class="btn btn-primary" type="submit" th:if="${loan.status == T(biblioexp.bibleo.Entity.LoanStatus).ACTIVE}">Renew</button>
+                </form>
+                <form th:action="@{/api/users/loans/return}" method="post">
+                    <input type="hidden" name="loanId" th:value="${loan.id}" />
+                    <button class="btn btn-success" type="submit" th:if="${loan.status == T(biblioexp.bibleo.Entity.LoanStatus).ACTIVE}">Return</button>
+                </form>
+            </td>
+
 
         </tr>
         </tbody>

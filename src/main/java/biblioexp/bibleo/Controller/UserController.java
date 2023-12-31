@@ -4,6 +4,8 @@ import biblioexp.bibleo.Entity.Loan;
 import biblioexp.bibleo.Entity.Notification;
 import biblioexp.bibleo.Entity.Reservation;
 import biblioexp.bibleo.Entity.User;
+import biblioexp.bibleo.Imp.LoanServiceImp;
+import biblioexp.bibleo.Service.LoanService;
 import biblioexp.bibleo.Service.NotificationService;
 import biblioexp.bibleo.Service.UserService;
 
@@ -28,9 +30,12 @@ public class UserController {
     private final UserService userService;
     private final NotificationService notificationService;
 
-    public UserController(UserService userService, NotificationService notificationService) {
+    private final LoanService loanService;
+
+    public UserController(UserService userService, NotificationService notificationService, LoanService loanService) {
         this.userService = userService;
         this.notificationService = notificationService;
+        this.loanService = loanService;
     }
 
     // Create User REST API
@@ -164,7 +169,19 @@ public class UserController {
         }
     }
 
+    @PostMapping("/loans/renew")
+    public ModelAndView renewLoan(@RequestParam("loanId") long loanId) {
+        Loan renewedLoan = loanService.renewLoan(loanId);
 
+        return new ModelAndView("redirect:/api/users/loans");
+    }
+
+    @PostMapping("/loans/return")
+    public ModelAndView returnLoan(@RequestParam("loanId") long loanId) {
+        Loan returnedLoan = loanService.returnLoan(loanId);
+
+        return new ModelAndView("redirect:/api/users/loans");
+    }
 
 
 }

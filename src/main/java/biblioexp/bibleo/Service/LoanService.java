@@ -19,5 +19,8 @@ public interface LoanService {
     List<Loan> findApproachingReturnLoans();
 
     List<Loan> findOverdueLoans();
+    Loan renewLoan(long loanId);
+
+    Loan returnLoan(long loanId);
 
 }
