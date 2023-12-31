@@ -1,5 +1,6 @@
 package biblioexp.bibleo.config;
 
+import biblioexp.bibleo.Entity.User;
 import biblioexp.bibleo.Imp.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -24,7 +26,7 @@ public class WebSecurityConfig {
     public UserDetailsService userDetailsService() {
         return new UserServiceImpl();
     }
-
+    User user;
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -44,18 +46,16 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf((csrf) -> csrf
-                        .ignoringRequestMatchers("/api/**"))
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/api/**", "/login", "/register").permitAll()
-                        .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
-                        .requestMatchers("/account/**").hasAnyAuthority("USER")
+                        .requestMatchers("/login", "/register").permitAll()
+                        .requestMatchers("/api/Books/search", "/api/users/notifications", "/api/users/reservations", "/api/users/loans").hasAnyAuthority("USER", "ADMIN")
+                        .requestMatchers("/api/**").hasAuthority("ADMIN")
+
                         .anyRequest().authenticated())
                         .formLogin(form -> form
                                 .loginPage("/login")
                                 .permitAll()
-
-
+                                        .failureUrl("/login?error=true")
                 .successHandler(sucessHandler)
                 .usernameParameter("email")
                 .passwordParameter("password")
@@ -72,7 +72,7 @@ public class WebSecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**", "/api/**");
+        return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");
     }
 
 }

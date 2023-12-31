@@ -25,7 +25,7 @@ public class CustomLoginSucessHandler extends SimpleUrlAuthenticationSuccessHand
         String targetUrl = determineTargetUrl(authentication);
         if (response.isCommitted()) return;
 
-        // Set the user ID in a cookie
+
         setUserCookie(request, response, authentication);
 
         RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
@@ -36,8 +36,8 @@ public class CustomLoginSucessHandler extends SimpleUrlAuthenticationSuccessHand
 
         if (userId != null) {
             Cookie userIdCookie = new Cookie("userId", userId);
-            userIdCookie.setMaxAge(24 * 60 * 60); // Set the cookie to expire in 24 hours (adjust as needed)
-            userIdCookie.setPath("/"); // Set the cookie path
+            userIdCookie.setMaxAge(24 * 60 * 60);
+            userIdCookie.setPath("/");
             response.addCookie(userIdCookie);
         }
     }
@@ -79,9 +79,9 @@ public class CustomLoginSucessHandler extends SimpleUrlAuthenticationSuccessHand
             roles.add(a.getAuthority());
         }
         if(roles.contains("ADMIN")){
-            url = "/";
+            url = "/api/Books/BookList";
         }else if(roles.contains("USER")) {
-            url = "/";
+            url = "/api/Books/search";
         }
         return url;
     }

@@ -50,7 +50,7 @@
             <td th:text="${category.id}"></td>
             <td th:text="${category.categoryName}"></td>
             <td>
-                <a class="btn btn-info" th:href="@{'/api/Categories/edit/' + ${category.id}}">Edit</a>
+                <a class="btn btn-primary" th:href="@{'/api/Categories/edit/' + ${category.id}}">Edit</a>
                 <a class="btn btn-danger" th:href="@{'/api/Categories/delete/' + ${category.id}}">Delete</a>
             </td>
         </tr>
