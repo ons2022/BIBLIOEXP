@@ -1,11 +1,14 @@
 package biblioexp.bibleo.Imp;
 
 import biblioexp.bibleo.Controller.LoanRepository;
+import biblioexp.bibleo.Entity.Book;
 import biblioexp.bibleo.Entity.Category;
 import biblioexp.bibleo.Entity.Loan;
 import biblioexp.bibleo.Entity.LoanStatus;
+import biblioexp.bibleo.Service.BookService;
 import biblioexp.bibleo.Service.LoanService;
 import biblioexp.bibleo.exception.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -16,10 +19,12 @@ import java.util.List;
 
 public class LoanServiceImp implements LoanService {
     private LoanRepository LoanRepository;
+    private final BookService bookService;
 
-    public LoanServiceImp(LoanRepository LoanRepository ){
-        super();
-        this.LoanRepository= LoanRepository;
+    @Autowired
+    public LoanServiceImp(LoanRepository loanRepository, BookService bookService) {
+        this.LoanRepository = loanRepository;
+        this.bookService = bookService;
     }
     @Override
     public Loan saveLoan(Loan Loan) {
@@ -101,10 +106,16 @@ public class LoanServiceImp implements LoanService {
             loan.setReturnDate(new Date());
 
             LoanRepository.save(loan);
+
+
+            Book returnedBook = loan.getBook();
+            returnedBook.setAvb_copies(returnedBook.getAvb_copies() + 1);
+            bookService.saveBook(returnedBook);
         }
 
         return loan;
     }
+
 
 
 }

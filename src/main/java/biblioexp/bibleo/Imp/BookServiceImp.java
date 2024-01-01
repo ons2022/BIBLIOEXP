@@ -108,4 +108,28 @@ public class BookServiceImp implements BookService{
         return books;
     }
 
+    @Override
+    public void increaseLoanedCopies(Book book) {
+        book.setLoanedCopies(book.getLoanedCopies() + 1);
+        saveBook(book);
+    }
+
+    @Override
+    public void decreaseLoanedCopies(Book book) {
+        book.setLoanedCopies(book.getLoanedCopies() - 1);
+        saveBook(book);
+    }
+
+    @Override
+    public void increaseReservedCopies(Book book) {
+        book.setReservedCopies(book.getReservedCopies() + 1);
+        saveBook(book);
+    }
+
+    @Override
+    public void decreaseReservedCopies(Book book) {
+        book.setReservedCopies(book.getReservedCopies() - 1);
+        saveBook(book);
+    }
+
 }

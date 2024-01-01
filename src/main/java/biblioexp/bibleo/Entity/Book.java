@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
-
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,6 +27,12 @@ public class Book {
     @Column(name = "avb_copies")
     private long avb_copies;
 
+    @Column(name = "loaned_copies")
+    private Long loanedCopies;
+
+    @Column(name = "reserved_copies")
+    private Long reservedCopies;
+
     @Column(name = "date_publication")
     private String date_pub;
 
@@ -37,10 +41,10 @@ public class Book {
     @JsonBackReference
     private Category category;
 
-
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private Set<Loan> loans = new HashSet<>();
+
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private Set<Reservation> reservations = new HashSet<>();
@@ -50,26 +54,7 @@ public class Book {
 
     public Book() {
     }
-/*
-    public Book(String jsonString) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
 
-            Book book = objectMapper.readValue(jsonString, Book.class);
-
-            // Copy the values from the mapped book to this instance
-            this.setTitle(book.getTitle());
-            this.setAuthor(book.getAuthor());
-            this.setNbr_copies(book.getNbr_copies());
-            this.setAvb_copies(book.getAvb_copies());
-            this.setDate_pub(book.getDate_pub());
-            this.setCategory(book.getCategory());
-
-        } catch (IOException e) {
-            // Handle the exception (e.g., log it or throw a specific exception)
-            e.printStackTrace();
-        }
-    }
     public Book(String title, String author, long nbr_copies, long avb_copies, String date_pub, Category category) {
         this.title = title;
         this.author = author;
@@ -77,7 +62,7 @@ public class Book {
         this.avb_copies = avb_copies;
         this.date_pub = date_pub;
         this.category = category;
-    }*/
+    }
 
     public long getISBN() {
         return ISBN;
@@ -119,6 +104,22 @@ public class Book {
         this.avb_copies = avb_copies;
     }
 
+    public Long getLoanedCopies() {
+        return loanedCopies;
+    }
+
+    public void setLoanedCopies(long loanedCopies) {
+        this.loanedCopies = loanedCopies;
+    }
+
+    public Long getReservedCopies() {
+        return reservedCopies;
+    }
+
+    public void setReservedCopies(long reservedCopies) {
+        this.reservedCopies = reservedCopies;
+    }
+
     public String getDate_pub() {
         return date_pub;
     }
@@ -158,11 +159,4 @@ public class Book {
     public void setNotifications(Set<Notification> notifications) {
         this.notifications = notifications;
     }
-
-    public void setId(Long ISBN) {
-        this.ISBN = ISBN;
-    }
-
-    // ... other methods as needed
-
 }

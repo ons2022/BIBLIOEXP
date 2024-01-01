@@ -122,6 +122,7 @@ public class BookController {
             LoanService.saveLoan(loan);
 
             book.setAvb_copies(book.getAvb_copies() - 1);
+            BookService.increaseLoanedCopies(book);
             BookService.saveBook(book);
 
             ModelAndView modelAndView = new ModelAndView();
@@ -148,6 +149,7 @@ public class BookController {
         User user = UserService.getUserById(userIdFromCookie);
         Reservation reservation = new Reservation(book, user, new Date());
         ReservationService.saveReservation(reservation);
+        BookService.increaseReservedCopies(book);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/api/Books/search");
         return modelAndView;
