@@ -99,9 +99,9 @@ public class BookServiceImp implements BookService{
             case "author":
                 books.sort(Comparator.comparing(Book::getAuthor));
                 break;
-            // Add more cases for additional sorting criteria if needed
+
             default:
-                // Default to sorting by title
+
                 books.sort(Comparator.comparing(Book::getTitle));
                 break;
         }

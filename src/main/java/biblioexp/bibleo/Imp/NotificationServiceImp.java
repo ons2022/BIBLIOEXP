@@ -54,7 +54,7 @@ public class NotificationServiceImp implements NotificationService {
     @Override
     public void notifyReservedBooksAvailable() {
 
-        List<Reservation> reservedBooksAvailable = reservationService.findReservedBooksAvailable(/* add logic to get reserved books available */);
+        List<Reservation> reservedBooksAvailable = reservationService.findReservedBooksAvailable();
 
         for (Reservation reservation : reservedBooksAvailable) {
             User user = reservation.getUser();
